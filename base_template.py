@@ -10,14 +10,14 @@ import matplotlib.pyplot as plt
 class Data(Dataset):
     def __init__(self, train=True):
 
-        data=pd.read_csv('') #path to the dataset
+        data=pd.read_csv('') #path to the dataset #NM
         if (train):
-            self.x= torch.tensor(data.iloc[0:7903,:].drop([''],axis=1).values, dtype=torch.float) #n 7090 is the number of samples and '' is the y column label
-            self.y=torch.tensor(data.loc[0:7903,''], dtype.float).reshape((7904,1)) # n should be about 80% of the data
+            self.x= torch.tensor(data.iloc[0:7903,:].drop([''],axis=1).values, dtype=torch.float) #n 7090 is the number of samples and '' is the y column label #NM
+            self.y=torch.tensor(data.loc[0:7903,''], dtype.float).reshape((7904,1)) # n should be about 80% of the data #NM
             self.len=self.x.shape[0]
         else:
-            self.x= torch.tensor(data.iloc[7903:,:].drop([''],axis=1).values, dtype=torch.float) #n 7090 is the number of samples and '' is the y column label
-            self.y=torch.tensor(data.loc[7903:,''], dtype.float).reshape((1975,1))
+            self.x= torch.tensor(data.iloc[7903:,:].drop([''],axis=1).values, dtype=torch.float) #n 7090 is the number of samples and '' is the y column label #NM
+            self.y=torch.tensor(data.loc[7903:,''], dtype.float).reshape((1975,1)) #NM
             self.len=self.x.shape[0]
 
     def __getitem__(self,index):
@@ -27,19 +27,7 @@ class Data(Dataset):
         return self.len
 
 data_train =Data(train=True)
-train_loader = DataLoader(dataset=data_train, batch_size=5)
-
-class logisitic_regression(nn.Module):
-    def __init__(self,inputs,outputs):
-        super(logisitic_regression,self).__init__()
-        self.linear=nn.Linear(inputs,outputs)
-
-    def forward(self,x):
-        yhat = torch.sigmoid(self.linear(x))
-        return yhat
-
-model = logisitic_regression(,) # inputs for number layers i/o
-criterion = nn.BCELoss()
+train_loader = DataLoader(dataset=data_train, batch_size=5) #NM
 
 class multi_logistic(nn.Module): #softmax
     def __init__(self, inputs, outputs, hidden):
@@ -54,24 +42,11 @@ class multi_logistic(nn.Module): #softmax
         out = self.linear2(out)
         return out
 
-model = multi_logistic() #need the three, inputs, outputs and hidden layers
+model = multi_logistic() #need the three, inputs, outputs and hidden layers #NM
 criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.1) #NM
 
-class linear_regression(nn.Module):
-    def __init__(self, inputs):
-        super(linear_regression,self).__init__()
-        self.linear = nn.Linear(inputs,1)
-
-    def forward(self,x):
-        yhat = self.linear(x)
-        return yhat
-
-model=linear_regression() #number of inputs
-criterion= nn.MSELoss()
-
-optimizer = optim.SGD(model.parameters(), lr=0.1)
-
-epochs = 100
+epochs = 100 #NM
 LOSS = []
 for epoch in range(epochs):
     for x,y in train_loader:
